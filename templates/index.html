@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherForecast | Прогноз погоды</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <header class="header">
+            <div class="sun">☀️</div>
+            <p class="eyebrow">ПРОЕКТ МАШИННОГО ОБУЧЕНИЯ</p>
+            <h1>WeatherForecast</h1>
+            <p class="subtitle">
+                Предсказание температуры воздуха на следующий день
+            </p>
+        </header>
+
+        <section class="panel">
+            <h2>🌤 Метеорологические данные</h2>
+            <p class="hint">Введите показатели погоды для расчёта прогноза.</p>
+
+            <form method="POST">
+                <div class="grid">
+                    <label>
+                        Атмосферное давление (гПа)
+                        <input type="number" name="pressure" step="any"
+                               min="800" max="1100" required
+                               value="{{ values.pressure }}">
+                    </label>
+
+                    <label>
+                        Влажность (%)
+                        <input type="number" name="humidity" step="any"
+                               min="0" max="100" required
+                               value="{{ values.humidity }}">
+                    </label>
+
+                    <label>
+                        Скорость ветра (км/ч)
+                        <input type="number" name="wind_speed" step="any"
+                               min="0" max="150" required
+                               value="{{ values.wind_speed }}">
+                    </label>
+
+                    <label>
+                        Температура сегодня (°C)
+                        <input type="number" name="temp_today" step="any"
+                               min="-90" max="60" required
+                               value="{{ values.temp_today }}">
+                    </label>
+
+                    <label>
+                        Температура вчера (°C)
+                        <input type="number" name="temp_yesterday" step="any"
+                               min="-90" max="60" required
+                               value="{{ values.temp_yesterday }}">
+                    </label>
+
+                    <label>
+                        Температура 2 дня назад (°C)
+                        <input type="number" name="temp_2_days_ago" step="any"
+                               min="-90" max="60" required
+                               value="{{ values.temp_2_days_ago }}">
+                    </label>
+
+                    <label class="full">
+                        Температура 3 дня назад (°C)
+                        <input type="number" name="temp_3_days_ago" step="any"
+                               min="-90" max="60" required
+                               value="{{ values.temp_3_days_ago }}">
+                    </label>
+                </div>
+
+                <button type="submit">Рассчитать прогноз →</button>
+            </form>
+        </section>
+
+        {% if result is not none %}
+        <section class="result">
+            <p class="result-label">ПРОГНОЗ НА ЗАВТРА</p>
+            <div class="temperature">{{ "%.1f"|format(result) }}°C</div>
+            <p>Предсказанная температура воздуха</p>
+        </section>
+        {% endif %}
+
+        {% if error %}
+        <section class="error">{{ error }}</section>
+        {% endif %}
+
+        <footer>
+            Учебный проект на Python, Flask и Scikit-learn.
+            <br>
+            Прогноз рассчитан моделью на демонстрационных данных.
+        </footer>
+    </main>
+</body>
+</html>
